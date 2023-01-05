@@ -24,7 +24,9 @@ export const StationItem: React.FC<Props> = ({ id, code }) => {
       </View>
       <View style={styles.info}>
         <Text style={styles.textId}>{id}</Text>
-        <Text style={styles.textLocation}>{code}</Text>
+        <Text style={styles.textLocation}>
+          {code.toUpperCase().replace(" ", "_")}
+        </Text>
       </View>
     </TouchableOpacity>
   )

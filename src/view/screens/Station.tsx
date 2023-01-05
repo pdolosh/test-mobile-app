@@ -9,13 +9,17 @@ import {
 } from "react-native"
 import { StationItem } from "../components/StationItem"
 import Search from "~/view/assets/icons/search.svg"
-import { DATA } from "../../utils/data"
+import { useQuery } from "react-query"
+import { QueryKey } from "~/constants/constants"
+import { App } from "~/services/api/App"
 
 export const StationScreen: React.FC = () => {
   const [value, setValue] = React.useState<string>("")
 
+  const { data, isLoading } = useQuery(QueryKey.LIST_SATATION, App.list)
+
   const renderItem = ({ item }: any) => (
-    <StationItem id={item.id} code={item.locationCode} />
+    <StationItem code={item.name} id={item.pantone_value} />
   )
 
   return (
@@ -38,9 +42,10 @@ export const StationScreen: React.FC = () => {
           />
         </View>
         <FlatList
-          data={DATA}
+          data={data?.data.data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
+          style={styles.flatlist}
         />
       </View>
     </View>
@@ -99,5 +104,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 21,
+  },
+  flatlist: {
+    height: "100%",
+    marginBottom: 200,
   },
 })
